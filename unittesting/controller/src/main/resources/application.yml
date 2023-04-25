@@ -1,0 +1,30 @@
+server:
+  port: 40080
+
+
+spring:
+  sql:
+    init:
+      mode: always
+    #  schema-locations:
+     #   - classpath:data.sql
+  datasource:
+    url: jdbc:h2:mem:inmemdb
+    username: sa
+    password: sa
+
+
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: 'create-drop'
+  h2:
+    console:
+      enabled: true
+
