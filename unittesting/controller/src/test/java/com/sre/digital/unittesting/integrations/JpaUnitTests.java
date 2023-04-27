@@ -10,14 +10,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.Assertions.assertThat;
-import com.jayway.jsonpath.*;
-import com.jayway.jsonpath.DocumentContext.*;
 
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class JpaUnitTesting {
+public class JpaUnitTests {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -26,7 +24,7 @@ public class JpaUnitTesting {
     private Itemrepository itemrepository;
 
     @Test
-    public void testFindByUsername() {
+    public void testFindByItemId() {
         // given
         Item item = new Item();
 

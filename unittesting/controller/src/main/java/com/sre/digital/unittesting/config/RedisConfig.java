@@ -32,7 +32,9 @@ public class RedisConfig {
     }
 
     public RedisConnectionFactory redisConnectionFactory() {
+
         return new RedissonConnectionFactory(redissonClient());
+
     }
 
     @Bean

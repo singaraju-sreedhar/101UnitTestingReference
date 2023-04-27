@@ -2,21 +2,20 @@ package com.sre.digital.unittesting.service;
 
 import com.sre.digital.unittesting.model.Item;
 import com.sre.digital.unittesting.repository.Itemrepository;
-import com.sre.digital.unittesting.service.BusinessService;
 import com.sre.digital.unittesting.teststubs.TestStubs;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.client.RestTemplate;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,13 +25,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 //@SpringBootTest
 @WebMvcTest(BusinessService.class)
 @ExtendWith(SpringExtension.class)
-public class ServiceOnlyTest {
+public class ServiceOnlyTests {
 
     @MockBean
     Itemrepository itemrepository;
 
     @Autowired
     BusinessService businessService;
+
+    @MockBean
+    RedissonClient redissonClient;
+
+    @MockBean
+    RestTemplate restTemplate;
+
+
+    @MockBean
+    RedisTemplate redisTemplate;
+
 
     @Test
     void GetAllItemsUsingServiceLayerTest()

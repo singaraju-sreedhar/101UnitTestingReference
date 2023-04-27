@@ -4,34 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.net.ServerSocket;
-import java.util.UUID;
-
-import com.sre.digital.unittesting.config.RedisConfig;
 import com.sre.digital.unittesting.model.Item;
-import com.sre.digital.unittesting.repository.Itemrepository;
 import com.sre.digital.unittesting.service.BusinessService;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
-import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisKeyValueAdapter;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import redis.embedded.RedisServer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -41,7 +26,7 @@ import static org.mockito.Mockito.*;
 //@SpringBootTest(classes = { RedisConfig.class, BusinessService.class, Itemrepository.class })
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RedisMockUnitTesting {
+public class RedisMockUnitTests {
 
   /*  private static RedisServer redisServer;
     private static RedissonClient redissonClient;
