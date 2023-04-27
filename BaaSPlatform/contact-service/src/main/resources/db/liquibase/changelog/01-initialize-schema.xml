@@ -1,0 +1,62 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="akilaw" id="01-1">
+        <createTable tableName="beneficiary">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="beneficiary_pkey"/>
+            </column>
+            <column name="user_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="service_code" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sub_service_code" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display_name" type="VARCHAR(100)">
+            </column>
+            <column name="payment_reference" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="mobile_number" type="VARCHAR(20)">
+            </column>
+
+            <column name="account_number" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="branch_code" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="bank_code" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="city" type="VARCHAR(100)">
+            </column>
+
+            <column name="state" type="VARCHAR(100)">
+            </column>
+
+            <column name="post_code" type="VARCHAR(20)">
+            </column>
+
+            <column name="address" type="VARCHAR(250)">
+            </column>
+
+            <column name="verification_status" type="VARCHAR(100)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="verification_at" type="TIMESTAMP WITHOUT TIME ZONE">
+            </column>
+
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

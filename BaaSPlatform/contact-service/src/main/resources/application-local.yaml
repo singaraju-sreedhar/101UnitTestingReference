@@ -1,0 +1,112 @@
+spring:
+  application:
+    name: contact-service
+    id: 092
+    entity-id: 101D
+  mvc:
+    throw-exception-if-no-handler-found: false
+  resources:
+    add-mappings: true
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    username: ${DB_USERNAME:postgres}
+    password: 123456
+    url: jdbc:postgresql://localhost:5432/contact_db
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/liquibase/liquibase-changelog.xml
+  redis:
+    url: redis://localhost:6379
+
+server:
+  port: 8080
+
+#prometheus
+management:
+  server:
+    port: 8081
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+jwt:
+  enabled: true
+  exclude-api-paths: /sharing,/v3/api-docs.yaml,/swagger-ui,/actuator,/error,/v2,/swagger,/webjars
+  header-name: X-JWT-Assertion
+  ignore-check: false
+  default-membership-id: c9e3c400-640b-11ea-bc55-0242ac130003
+  default-membership-role: SuperAdmin
+  providers:
+    - issuer: wso2.org/products/am
+      secret: cU9mcmJ4cWZtTGliWTNPdld6M2J1Rkl5RnlVYQ==
+      jwtUserType: Application_User
+      jwtAppType: Application
+      expiry: 60
+      verifySecret: false
+      issuerClaim: iss
+      userTypeClaim: http://wso2.org/claims/usertype
+      userIdClaim: http://wso2.org/claims/username
+      orgIdClaim: http://wso2.org/claims/identity/organisationId
+      appIdClaim: http://wso2.org/claims/applicationname
+      roleClaim: http://wso2.org/claims/role
+      permissionClaim: http://wso2.org/claims/permission
+      subscriberClaim: http://wso2.org/claims/subscriber
+    - issuer: internal
+      secret: 2N+Pd5jwo/UXksl/EsDncl3Y7H0M7OQ/FzkvZ5o0MuM=
+      jwtUserType: APPLICATION_USER
+      jwtAppType: APPLICATION
+      expiry: 7200
+      verifySecret: true
+      issuerClaim: iss
+      userTypeClaim: http://wso2.org/claims/usertype
+      userIdClaim: http://wso2.org/claims/enduser
+      orgIdClaim: http://wso2.org/claims/identity/organisationId
+      appIdClaim: http://wso2.org/claims/applicationname
+      roleClaim: http://wso2.org/claims/role
+      permissionClaim: http://wso2.org/claims/permissions
+      subscriberClaim: http://wso2.org/claims/subscriber    
+      
+pxchange:
+  enabled: true
+  entity-id: 101D
+  
+kafka:
+  server: localhost:9092
+  enabled: true
+
+membership.server.base-url: ${MEMBERSHIP_BASE_URL:http://membership-service:8080}
+wallet.server.base-url: ${WALLET_BASE_URL:http://wallet-service:8080}
+
+contact:
+  lookup:
+    max-attempts: 3
+    max-duration: 1
+    block-duration: 5
+    mask-account-number: true
+    mask-account-name: true
+
+payment-adapter-finexus:
+  base-url: ${PAYMENT_ADAPTER_FINEXUS_BASE_URL:http://localhost:8080}
+
+mock:
+  enabled: true
+  
+payment-adapter:
+  mappings:
+    - adapterId: 101D-SYSTEM
+      baseEndpoint: http://wallet-service:8080 
+    - adapterId: 101D-ADB
+      baseEndpoint: http://wallet-service:8080 
+    - adapterId: SYSTEM-SYSTEM
+      baseEndpoint: http://wallet-service:8080

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<!-- ATTENTION: FILES ARE EXECUTED IN THE ORDER USED IN HERE -->
+	<include file="changelog/01-initialize-schema.xml"
+			 relativeToChangelogFile="true" />
+	<include file="changelog/02-required-fields-update.xml"
+			 relativeToChangelogFile="true" />
+	<include file="changelog/03-add-unique-contact.xml"
+			 relativeToChangelogFile="true" />
+	<include file="changelog/04-update-bankCode-data.xml"
+			 relativeToChangelogFile="true" />
+
+</databaseChangeLog>

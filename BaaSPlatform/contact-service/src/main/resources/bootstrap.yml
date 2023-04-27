@@ -1,0 +1,16 @@
+spring.cloud.vault:
+  enabled: false
+spring:
+  profiles:
+    active: ${SPRING_CONFIG_PROFILE:}
+  cloud:
+    config:
+      enabled: ${SPRING_CONFIG_ENABLED:false}
+      allowOverride: false
+      failFast: true
+      overrideNone: false
+      overrideSystemProperties: false
+      uri: ${SPRING_CONFIG_PATH:http://local.conf.101digital.io:8888}
+      label: ${SPRING_CONFIG_LABEL:master}
+encrypt:
+  failOnError: true

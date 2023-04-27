@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: contact-service
+  mvc:
+    throw-exception-if-no-handler-found: false
+  resources:
+    add-mappings: true
+
+logging:
+  path: logs/
+  file: contact-service.log
+  level:
+    root: INFO
+  accesslog:
+    pattern: '%h %l %u [%t] "%r" %s %b "Referer: %i{Referer}" "X-Forwarded-For: %i{X-Forwarded-For}" "User-Agent: %i{User-Agent}"'
+
+jwt:
+  enabled: true
+  header-name: X-JWT-Assertion
+  ignore-check: false
+  default-membership-id: c9e3c400-640b-11ea-bc55-0242ac130003
+  default-membership-role: SuperAdmin
+  providers:
+    - issuer: wso2.org/products/am
+      secret: lSGznpPgmBOY4rzD4dKV6yVt1zVdYkDNqciolbi4fRI=
+      jwtUserType: APPLICATION_USER
+      jwtAppType: APPLICATION
+      expiry: 60
+      verifySecret: false
+      issuerClaim: iss
+      userTypeClaim: http://wso2.org/claims/usertype
+      userIdClaim: http://wso2.org/claims/userid
+      orgIdClaim: http://wso2.org/claims/identity/organisationId
+      appIdClaim: http://wso2.org/claims/applicationname
+      roleClaim: http://wso2.org/claims/role
+      permissionClaim: http://wso2.org/claims/permission
+      subscriberClaim: http://wso2.org/claims/subscriber
+    - issuer: internal
+      secret: MDQwOTExNGQtMzViZC00Mjc4LTljNWMtYmYzODlhZjlhM2Iw
+      jwtUserType: APPLICATION_USER
+      jwtAppType: APPLICATION
+      expiry: 7200
+      verifySecret: true
+      issuerClaim: iss
+      entityIdClaim: http://wso2.org/claims/entityId
+      userTypeClaim: http://wso2.org/claims/usertype
+      userIdClaim: http://wso2.org/claims/enduser
+      orgIdClaim: http://wso2.org/claims/identity/organisationId
+      appIdClaim: http://wso2.org/claims/applicationname
+      roleClaim: http://wso2.org/claims/role
+      permissionClaim: http://wso2.org/claims/permissions
+      subscriberClaim: http://wso2.org/claims/subscriber      
+
+membership:
+  server:
+    base-url: http://membership-service:8080
+    
+wallet:
+  server:
+    base-url: http://wallet-service:8080
+    
+pxchange:
+  enabled: false
+  entity-id: 101D
+  
+kafka:
+  server: ${KAFKA_BROKERS:10.0.1.53:30003}
+  enabled: false
+
+contact:
+  lookup:
+    max-attempts: 1
+    max-duration: 3

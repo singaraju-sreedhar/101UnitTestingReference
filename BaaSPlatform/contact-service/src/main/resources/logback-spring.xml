@@ -1,0 +1,8 @@
+<configuration>
+	<include
+		resource="logging/logback-common.xml" />
+
+	<logger name="io.marketplace.services" level="TRACE" additivity = "false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+</configuration>

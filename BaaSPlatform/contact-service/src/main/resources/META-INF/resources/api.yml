@@ -1,0 +1,978 @@
+openapi: 3.0.1
+info:
+  title: contact-service API
+  version: 1.0.0
+  description: |
+    Contact Service
+servers:
+  - url: http://localhost:8074
+    description: Generated server url
+tags: []
+paths:
+  /contacts:
+    get:
+      tags:
+        - Contact
+      summary: Get the list of contact by user identity
+      operationId: getContactList
+      parameters:
+        - name : userId
+          in : query
+          description: user id
+          required: false
+          schema:
+            type: string
+          example: 123
+        - name : searchText
+          in : query
+          description: search text
+          required: false
+          schema:
+            type: string
+          example: abc
+        - name : bankCode
+          in : query
+          description: bank code
+          required: false
+          schema:
+            type: string
+          example: UD
+        - name: listOrders
+          in: query
+          description: Results will be sorted and ordered based on the given criteria
+          required: false
+          schema:
+            type: string
+          example: firstName-DESC
+        - name: pageSize
+          in: query
+          description: Number of User Accounts returned per page/request
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          description: Get User Accounts in a specific page number
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        200:
+          description: Retrieve data succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryResponse'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - Bearer: [ ]
+    post:
+      tags:
+        - Contact
+      summary: Create a new contact for given user identity
+      operationId: createContact
+      requestBody:
+        description: Contact data model
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiaryRecord'
+      responses:
+          503:
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          201:
+            description: Contact data model created succesfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/LookupBeneficiaryResponse'
+          404:
+            description: Data Not Found
+            content:
+              application/json:
+                schema:
+                  type: string
+          400:
+            description: Input data is invalid
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          401:
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  type: string
+      security:
+        - Bearer: [ ]
+  /contacts/{id}:
+    delete:
+      tags:
+        - Contact
+      summary: Delete the contact using contact id
+      operationId: deleteContactById
+      parameters:
+        - name: id
+          in: path
+          description: contact id
+          required: true
+          schema:
+            type: string
+          example: 123
+      responses:
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        204:
+          description: Contact deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryResponse'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - Bearer: [ ]
+  /beneficiaries:
+    get:
+      tags:
+        - Beneficiary
+      summary: Lookup beneficiary account
+      description: Lookup beneficiary account by mobile number and account number
+      operationId:  lookupBeneficiary
+      parameters:
+        - name: mobileNumber
+          in: query
+          description: Mobile Number
+          required: false
+          schema:
+            type: string
+          example: 65086508427
+        - name: accountNumber
+          in: query
+          description: Account Number
+          required: false
+          schema:
+            type: string
+          example: 120086508427
+        - name: accountType
+          in: query
+          required: false
+          schema:
+            type: string
+          example: BANK_WALLET
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletResponse'
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - Bearer: [ ]
+    post:
+      tags:
+        - Beneficiary
+      summary: Register NAD
+      operationId: createBeneficiary
+      requestBody:
+        description: Beneficiary data model
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBeneficiaryRecord'
+      responses:
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        200:
+          description: Retrieve data successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryCreatedData'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - Bearer: [ ]
+  /beneficiaries/{type}/{identification}:
+    put:
+      tags:
+        - Beneficiary
+      summary: Update DuitNow Id
+      operationId: updateBeneficiary
+      parameters:
+        - name: type
+          in: path
+          description: beneficiary type
+          required: true
+          schema:
+            type: string
+          example: MobileNumber
+        - name: identification
+          in: path
+          description: identification value
+          required: true
+          schema:
+            type: string
+          example: 609100000147
+      requestBody:
+        description: Beneficiary data model
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBeneficiaryRecord'
+      responses:
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        200:
+          description: Retrieve data succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryAccountDetails'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - Bearer: [ ]
+    get: 
+      tags:
+        - Beneficiary
+      summary: Lookup Beneficiary By Identification
+      operationId: lookupBeneficiaryAccount
+      parameters:
+        - name: type
+          in: path
+          description: beneficiary type
+          required: true
+          schema:
+            type: string
+          example: MobileNumber
+        - name: identification
+          in: path
+          description: identification value
+          required: true
+          schema:
+            type: string
+          example: 609100000147
+        - name: bankCode
+          in: query
+          required: false
+          schema:
+            type: string
+          example: RJHIMYKL
+        - name: walletId
+          in: query
+          required: false
+          schema:
+            type: string
+          example: f3b9595e-80fc-4333-9611-b0fe4a3ef222
+        - name: beneficiaryAccountType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - SavingsAccount
+              - CurrentAccount
+              - LoanAccount
+              - CreditCard
+              - CASA
+      responses:
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        200:
+          description: Retrieve data successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupBeneficiaryResponse'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - Bearer: [ ]
+    delete:
+      tags:
+        - Beneficiary
+      summary: Delete Beneficiary By Identification
+      operationId: deleteBeneficiary
+      parameters:
+        - name: type
+          in: path
+          description: beneficiary type
+          required: true
+          schema:
+            type: string
+          example: MobileNumber
+        - name: identification
+          in: path
+          description: identification value
+          required: true
+          schema:
+            type: string
+          example: 609100000147
+      responses:
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        200:
+          description: Deleted succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryDeleteResponse'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - Bearer: [ ]
+  /beneficiaries/QR/validations:
+    post:
+      tags:
+        - Beneficiary
+      summary: Lookup Beneficiary by QR code
+      operationId: lookupBeneficiaryByQrCode
+      requestBody:
+        description: Lookup Beneficiary QR data model
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiaryValidation'
+      responses:
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        200:
+          description: Retrieve data successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupBeneficiaryResponse'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - Bearer: [ ]        
+#-----
+components:
+  schemas:
+    LookupBeneficiaryResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Beneficiary'
+    BeneficiaryResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Beneficiary'
+        paging:
+          $ref: '#/components/schemas/PagingInformation'
+    ServiceDataResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+        paging:
+          $ref: '#/components/schemas/PagingInformation'
+        status:
+          $ref: '#/components/schemas/ResponseStatus'
+    PagingInformation:
+      type: object
+      properties:
+        totalRecords:
+          type: integer
+        pageSize:
+          type: integer
+        pageNumber:
+          type: integer
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResponseStatus'
+    ResponseStatus:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    BeneficiaryAccountResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/BeneficiaryAccount'
+    WalletResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Beneficiary'
+        paging:
+          $ref: '#/components/schemas/PagingInformation'
+        status:
+          $ref: '#/components/schemas/ResponseStatus'
+    BeneficiaryAccount:
+      type: object
+      properties:
+        accountId:
+          type: string
+          format: uuid
+          readOnly: true
+        accountNumber:
+          type: string
+          readOnly: true
+        displayName:
+          type: string
+    Beneficiary:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        paymentReference:
+          type: string
+        accountNumber:
+          type: string
+        bankCode:
+          type: string
+        accountType:
+          type: string
+        status:
+          type: string
+        identification:
+          type: string
+        type:
+            type: string
+        qrDetails:
+          readOnly: true
+          $ref: '#/components/schemas/QrDetails'            
+    QrDetails:
+      type: object
+      properties:
+        qrType:
+          type: string
+          enum:
+            - static
+            - dynamic
+        amount:
+          type: string
+        messageId:
+          type: string
+        acquirerId:
+          type: string
+        acquirerName:
+          type: string
+        category:
+          type: string
+          enum:
+            - POS
+            - P2P
+            - DFLT
+        acceptedSource:
+          type: array
+          items:
+            type: string
+        merchantCode:
+          type: string
+        qrRawData:
+          type: string
+        originalMessageId:
+          type: string 
+          example: 20230301FNXSMYNB520HQR02000043 
+    BeneficiaryValidation:
+      type: object
+      properties:
+        qrRawData:
+          type: string
+        walletId:
+          type: string           
+    BeneficiaryRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        serviceCode:
+          type: string
+          default: ""
+        subServiceCode:
+          type: string
+          default: ""
+        displayName:
+          type: string
+          default: ""
+          x-constraints: "@Xss"
+        paymentReference:
+          type: string
+          default: ""
+          x-constraints: "@Xss"
+        mobileNumber:
+          type: string
+          default: ""
+        accountNumber:
+          type: string
+          default: ""
+          x-constraints: "@Xss"
+        branchCode:
+          type: string
+          default: ""
+        bankCode:
+          type: string
+          default: ""
+        city:
+          type: string
+          default: ""
+        state:
+          type: string
+          default: ""
+        postCode:
+          type: string
+          default: ""
+        address:
+          type: string
+          default: ""
+        verificationStatus:
+          type: string
+          default: ""
+        verificationAt:
+          type: string
+          default: ""
+    BankAccountSchema:
+      type: object
+      properties:
+        schemeName:
+          type: string
+        identification:
+          type: string
+    BankAccount:
+      type: object
+      properties:
+        bankCode:
+          type: string
+        accountNumber:
+          type: string
+        accountHolderName:
+          type: string
+        accountId:
+          type: string
+        account:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankAccountSchema'
+    Wallet:
+      type: object
+      properties:
+        walletId:
+          type: string
+          example: 11889-99982-10056-51950
+          description: Wallet ID of the specific wallet
+        userId:
+          type: string
+          example: '2222056798197'
+          description: Id of the owner of the wallet(member Id)
+        walletName:
+          type: string
+          example: my wallet 003
+          description: Name of the wallet
+        currentBalance:
+          type: number
+          example: 200.23
+          description: Current balance of the wallet. Meaningful only when wallet is a type of virtual wallet
+        availableBalance:
+          type: number
+          example: 100.23
+          description: Available balance of the wallet. Meaningful only when wallet is a type of virtual wallet
+        minimumBalance:
+          type: number
+          example: 10.23
+          description: Minimum balance that this wallet should hold. Meaningful only when wallet is a type of virtual wallet
+        bankAccount:
+          example: '10.23'
+          description: Minimum balance that this wallet should hold. Meaningful only when wallet is a type of virtual wallet
+          $ref: '#/components/schemas/BankAccount'
+        currencyCode:
+          type: string
+          example: GBP
+          description: Currency code(in ISO 4217 alphabetic code standards) of the wallet. Meaningful only when wallet is a type of virtual wallet
+        status:
+          type: string
+          example: ACTIVE
+          description: Status of the wallet
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - BLOCKED
+            - EXPIRED
+            - TXN_SYNCING
+        type:
+          type: string
+          example: BANK_WALLET
+          description: Type of the wallet
+          enum:
+            - BANK_WALLET
+            - VIRTUAL_WALLET
+            - CRYPTO_WALLET
+            - SETTLEMENT_WALLET
+        isDefaultWallet:
+          type: boolean
+          example: true
+          description: Flag for indicating the default wallet among all the other wallets of a specific member
+        balanceAsAtDateTime:
+          type: string
+          format: date-time
+          example: '2019-12-16T03:37:17Z'
+          description: Indicate the last checked time of the balance
+        expiredAt:
+          type: string
+          format: date-time
+          example: '2019-12-16T03:37:17Z'
+          description: Wallet expiring date(in ISO 8061 format)in UTC
+    UpdateBeneficiaryRecord:
+      type: object
+      properties:
+        secondaryType:
+          type: string
+          example: PassportNumber
+        secondaryIdentification:
+          type: string
+          example: E394039340VSGP
+        displayName:
+          type: string
+          example: Test Name
+        paymentReference:
+          type: string
+          example: 0011002932913
+        bankCode:
+          type: string
+          example: FNXSMYNB
+        status:
+          type: string
+          enum:
+            - Inactive
+            - Active
+            - Deactivate
+            - BankSuspended
+    BeneficiaryDataResponse:
+      type: object
+      properties:
+        paymentReference:
+          type: string
+        displayName:
+          type: string
+        bankCode:
+          type: string
+        identification:
+          type: string
+        type:
+          type: string
+        secondaryType:
+          type: string
+        secondaryIdentification:
+          type: string
+        status:
+          type: string
+    LookupBeneficiaryAccountResponse: 
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/BeneficiaryAccountData'
+    BeneficiaryAccountDetails:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/BeneficiaryDataResponse'
+    BeneficiaryAccountData: 
+      type: object
+      properties:
+        paymentReference:
+          type: string
+        displayName:
+          type: string
+        bankCode:
+          type: string
+        identification:
+          type: string
+        type:
+          type: string
+        secondaryType:
+          type: string
+        secondaryIdentification:
+          type: string
+        status:
+          type: string
+    CreateBeneficiaryRecord:
+      type: object
+      properties:
+        type:
+          type: string
+        identification:
+          type: string
+        secondaryType:
+          type: string
+        secondaryIdentification:
+          type: string
+        displayName:
+          type: string
+          default: ""
+          x-constraints: "@Xss"
+        paymentReference:
+          type: string
+          default: ""
+          x-constraints: "@Xss"
+        bankCode:
+          type: string
+          default: ""
+    BeneficiaryCreatedResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/BeneficiaryCreatedData'
+    BeneficiaryCreatedData:
+      type: object
+      properties:
+        paymentReference:
+          type: string
+        displayName:
+          type: string
+        bankCode:
+          type: string
+        identification:
+          type: string
+        type:
+          type: string
+        secondaryType:
+          type: string
+        secondaryIdentification:
+          type: string
+        status:
+          type: string
+    BeneficiaryDeleteRequest:
+      type: object
+      properties:
+        paymentReference:
+          type: string
+        displayName:
+          type: string
+        secondaryType:
+          type: string
+        secondaryIdentification:
+          type: string
+        status:
+          type: string
+    BeneficiaryDeleteResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/BeneficiaryDeleteData'
+    BeneficiaryDeleteData:
+      type: object
+      properties:
+        paymentReference:
+          type: string
+        displayName:
+          type: string
+        bankCode:
+          type: string
+        identification:
+          type: string
+        type:
+          type: string
+        secondaryType:
+          type: string
+        secondaryIdentification:
+          type: string
+        status:
+          type: string
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
