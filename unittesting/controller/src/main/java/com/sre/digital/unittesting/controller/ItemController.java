@@ -16,6 +16,7 @@ import java.util.List;
 @ComponentScan
 public class ItemController {
 
+
     @Autowired
     BusinessService businessService;
 
@@ -30,6 +31,12 @@ public class ItemController {
     {
         return ResponseEntity.status(HttpStatus.OK).body(
                 new Item(1,"dummyname",(float)78.99,1000));
+    }
+
+    @GetMapping("/callexternal")
+    public String CallExternal()
+    {
+        return  businessService.callExternalService();
     }
 
     @GetMapping("/itemfromservice")
@@ -56,6 +63,7 @@ public class ItemController {
     @GetMapping("/filteritemfromsrvdb")
     public ResponseEntity<Item> FilterItemFromServiceDB(int id)
     {
+
         return  ResponseEntity.status(HttpStatus.OK)
                 .body(businessService.getFilteredRealItem(id));
     }

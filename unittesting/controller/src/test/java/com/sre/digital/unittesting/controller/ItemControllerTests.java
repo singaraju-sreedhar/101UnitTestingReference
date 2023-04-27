@@ -111,7 +111,7 @@ class ItemControllerTests {
 
 		String expected_response = "{\"id\":1,\"name\":\"dummyname\",\"price\":78.99,\"quantity\":1000}";
 
-		Item mockedResponse = new Item(1, "dummyname", (float) 78.97, 1000);
+		Item mockedResponse = new Item(1, "dummyname", (float) 78.99, 1000);
 
 		when(businessService.getDummyItem(null)).thenReturn(mockedResponse);
 

@@ -1,7 +1,6 @@
 server:
   port: 40080
 
-
 spring:
   sql:
     init:
@@ -27,4 +26,10 @@ spring:
   h2:
     console:
       enabled: true
+  redis:
+    host: localhost
+    port: 6379
+
+
+
 
