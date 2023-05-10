@@ -8,6 +8,7 @@ import com.sre.digital.unittesting.model.Item;
 import com.sre.digital.unittesting.service.BusinessService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runners.Suite;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class ItemControllerTests {
+public class ItemControllerTests {
 
 	@Autowired
 	public MockMvc mockMvc;
@@ -42,7 +42,7 @@ class ItemControllerTests {
 	BusinessService businessService;
 
 	@Test
-	void ApiFuncTest() throws Exception {
+	public  void ApiFuncTest() throws Exception {
 
 		RequestBuilder request = MockMvcRequestBuilders
 				.get("/apifunc")
@@ -55,7 +55,7 @@ class ItemControllerTests {
 	}
 
 	@Test
-	void DummyTest() throws Exception {
+	public void DummyTest() throws Exception {
 
 		String expected_response = "{\"id\":1,\"name\":\"dummyname\",\"price\":78.99,\"quantity\":1000}";
 
@@ -70,7 +70,7 @@ class ItemControllerTests {
 	}
 
 	@Test
-	void DummyItemFromServiceTestExpectToEmpty() throws Exception {
+	public void DummyItemFromServiceTestExpectToEmpty() throws Exception {
 		//the result will be empty because we have mocked the BusinessService bean
 		//and did not provide any mock implementation
 
@@ -90,7 +90,7 @@ class ItemControllerTests {
 	}
 
 	@Test
-	void FilteredDummyItemTest() throws Exception {
+	public void FilteredDummyItemTest() throws Exception {
 
 		List<Item> mockedResponse = new ArrayList<>();
 		mockedResponse.add(new Item(100, "dummyname", (float) 78.97, 1000));
@@ -107,7 +107,7 @@ class ItemControllerTests {
 	}
 
 	@Test
-	void DummyItemFromMockedServiceTest() throws Exception {
+	public void DummyItemFromMockedServiceTest() throws Exception {
 
 		String expected_response = "{\"id\":1,\"name\":\"dummyname\",\"price\":78.99,\"quantity\":1000}";
 
